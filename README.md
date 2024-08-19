@@ -54,8 +54,8 @@ To set up the development environment:
 3. For development, use `npm run dev` to watch for file changes and rebuild automatically.
 
 ## Useful parts of the code
-[Background Page](https://github.com/ColeMurray/chrome-llm-summarizer/blob/main/source/src/backgroundPage.ts) - this is where the call to OpenAI is happening, you could extend this to support claude or other models
-[List of models for dropdown](https://github.com/ColeMurray/chrome-llm-summarizer/blob/main/source/src/popup/component.tsx#L7) - list of models available in the dropdown
+- [Background Page](https://github.com/ColeMurray/chrome-llm-summarizer/blob/main/source/src/backgroundPage.ts) - this is where the call to OpenAI is happening, you could extend this to support claude or other models  
+- [List of models for dropdown](https://github.com/ColeMurray/chrome-llm-summarizer/blob/main/source/src/popup/component.tsx#L7) - list of models available in the dropdown
 
 ## Contributing
 
