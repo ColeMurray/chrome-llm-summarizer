@@ -21,18 +21,25 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("Background script received message:", request);
+    console.debug("Background script received message:", request);
 
     if (request.action === "summarize" && sender.tab?.id) {
         browser.storage.sync
-            .get(["openaiApiKey", "systemPrompt"])
+            .get(["openaiApiKey", "systemPrompt", "selectedModel"])
             .then((result) => {
                 const apiKey = result.openaiApiKey;
                 const systemPrompt =
                     result.systemPrompt ||
                     "You are a helpful assistant that summarizes text. You provide high quality, concise and well formatted summaries.";
+                const selectedModel = result.selectedModel || "gpt-4o";
 
-                summarizeText(request.text, apiKey, systemPrompt, sender.tab.id)
+                summarizeText(
+                    request.text,
+                    apiKey,
+                    systemPrompt,
+                    selectedModel,
+                    sender.tab.id,
+                )
                     .then((summary) => {
                         browser.tabs.sendMessage(sender.tab.id, {
                             action: "displaySummary",
@@ -53,6 +60,7 @@ async function summarizeText(
     text: string,
     apiKey: string,
     systemPrompt: string,
+    model: string,
     tabId: number,
 ): Promise<string> {
     console.debug("Summarizing text:", text);
@@ -63,7 +71,7 @@ async function summarizeText(
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            model: "gpt-4o-2024-08-06",
+            model: model,
             messages: [
                 {
                     role: "system",

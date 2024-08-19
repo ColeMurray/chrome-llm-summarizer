@@ -6,7 +6,6 @@ import "./css/markdown.css";
 let modalRoot: HTMLElement | null = null;
 
 browser.runtime.onMessage.addListener((request, sender) => {
-    console.log("Content script received message:", request);
     if (request.action === "summarize") {
         browser.storage.sync.get(["openaiApiKey"]).then((result) => {
             if (result.openaiApiKey) {
@@ -32,7 +31,6 @@ browser.runtime.onMessage.addListener((request, sender) => {
 });
 
 function renderModal(content: string, isError = false) {
-    console.log("Rendering modal with content:", content);
     if (!modalRoot) {
         modalRoot = document.createElement("div");
         modalRoot.id = "summary-modal-root";
